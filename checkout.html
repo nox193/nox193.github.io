@@ -92,26 +92,12 @@
 
             totalPriceElement.innerText = `Total: $${totalPrice.toFixed(2)}`;
         }
+        </script>
 
-        // PayPal Buttons setup
-        paypal.Buttons({
-            createOrder: function(data, actions) {
-                return actions.order.create({
-                    purchase_units: [{
-                        amount: {
-                            value: totalPrice.toFixed(2) // Set the total amount dynamically
-                        }
-                    }]
-                });
-            },
-            onApprove: function(data, actions) {
-                return actions.order.capture().then(function(details) {
-                    alert('Transaction completed by ' + details.payer.name.given_name);
-                    localStorage.removeItem('cart'); // Clear cart after purchase
-                    window.location.href = 'thankyou.html'; // Redirect to thank you page
-                });
-            }
-        }).render('#paypal-button-container'); // Render PayPal button inside the container
-    </script>
+        <style>.pp-8UBX5QURKPZNG{text-align:center;border:none;border-radius:0.25rem;min-width:11.625rem;padding:0 2rem;height:2.625rem;font-weight:bold;background-color:#FFD140;color:#000000;font-family:"Helvetica Neue",Arial,sans-serif;font-size:1rem;line-height:1.25rem;cursor:pointer;}</style>
+<form action="https://www.paypal.com/ncp/payment/8UBX5QURKPZNG" method="post" target="_blank" style="display:inline-grid;justify-items:center;align-content:start;gap:0.5rem;">
+  <input class="pp-8UBX5QURKPZNG" type="submit" value="Jetzt bezahlen" />
+  <img src=https://www.paypalobjects.com/images/Debit_Credit_APM.svg alt="cards" />
+</form>
 </body>
 </html>

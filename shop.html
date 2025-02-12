@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoBay - Shop</title>
+    <style>
+        /* Add some basic styling for the cart icon and notification bubble */
+        #cart-icon {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            background-color: #333;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #cart-icon .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: red;
+            color: white;
+            font-size: 14px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .button-container {
+            margin-top: 10px;
+        }
+        .buy-now-btn, .add-to-cart-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .buy-now-btn {
+            background-color: #008CBA; /* Different color for "Buy Now" */
+        }
+
+        .btc-price {
+            color: white; /* Change price color to white */
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="heading">CryptoBay Shop</h1>
+    <h4 class="heading desc">Browse and add Bitcoin to your cart!</h4>
+
+    <!-- Bitcoin Item Section -->
+    <div class="cBTC">
+        <img class="btc" src="https://s2.coinmarketcap.com/static/img/coins/64x64/1.png" alt="btc">
+        <h2 class="h2btc">Bitcoin</h2>
+        <p class="pbtc">Bitcoin is a decentralized digital currency...</p>
+        
+        <!-- Quantity selection -->
+        <div class="btc-quantity">
+            <button class="quantity-btn" onclick="decreaseQuantity()">-</button>
+            <input type="number" id="btc-amount" value="0" step="0.1" min="0.01" onchange="updatePrice()">
+            <button class="quantity-btn" onclick="increaseQuantity()">+</button>
+        </div>
+
+        <p class="btc-price" id="btc-price">0.01 btc = 958.61$</p>
+
+        <!-- Buttons: Buy Now and Add to Cart -->
+        <div class="button-container">
+            <button class="buy-now-btn" onclick="buyNow()">Buy Now</button>
+            <button class="add-to-cart-btn">Add to Cart</button>
+        </div>
+    </div>
+
+    <!-- Cart Icon -->
+    <div id="cart-icon" onclick="window.location.href = 'cart.html';">
+        🛒
+        <div class="cart-count" id="cart-count">0</div>
+    </div>
+
+    <script>
+        const btcPricePerUnit = 9586058; // price in cents for 1 btc
+
+        // Update the price based on the selected quantity
+        function updatePrice() {
+            const btcAmount = parseFloat(document.getElementById('btc-amount').value);
+            const totalPrice = (btcAmount * btcPricePerUnit / 100).toFixed(2);
+            document.getElementById('btc-price').innerText = `${btcAmount} btc = ${totalPrice}$`;
+        }
+
+        function increaseQuantity() {
+            const btcAmountInput = document.getElementById('btc-amount');
+            let btcAmount = parseFloat(btcAmountInput.value);
+            btcAmount = (btcAmount + 0.01).toFixed(2);
+            btcAmountInput.value = btcAmount;
+            updatePrice();
+        }
+
+        function decreaseQuantity() {
+            const btcAmountInput = document.getElementById('btc-amount');
+            let btcAmount = parseFloat(btcAmountInput.value);
+            if (btcAmount > 0.01) {
+                btcAmount = (btcAmount - 0.01).toFixed(2);
+                btcAmountInput.value = btcAmount;
+                updatePrice();
+            }
+        }
+
+        // Add to cart button functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const addToCartButton = document.querySelector('.add-to-cart-btn');
+            addToCartButton.addEventListener('click', function() {
+                const btcAmount = parseFloat(document.getElementById('btc-amount').value);
+                const totalPrice = (btcAmount * btcPricePerUnit / 100).toFixed(2);
+                const productName = 'Bitcoin';
+
+                // Create a cart item object
+                const cartItem = {
+                    productName: productName,
+                    btcAmount: btcAmount,
+                    totalPrice: totalPrice
+                };
+
+                // Get the current cart from localStorage or initialize as an empty array
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+                // Add the new item to the cart
+                cart.push(cartItem);
+
+                // Save the updated cart to localStorage
+                localStorage.setItem('cart', JSON.stringify(cart));
+
+                // Update the cart count in the top-right corner
+                updateCartCount();
+            });
+
+            // Update cart count
+            function updateCartCount() {
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                const cartCount = cart.length;
+                document.getElementById('cart-count').innerText = cartCount;
+            }
+
+            // Initial cart count update when the page loads
+            updateCartCount();
+        });
+
+        // Buy Now button functionality (redirect to checkout)
+        function buyNow() {
+            const btcAmount = parseFloat(document.getElementById('btc-amount').value);
+            const totalPrice = (btcAmount * btcPricePerUnit / 100).toFixed(2);
+            const productName = 'Bitcoin';
+
+            // Save the selected item in sessionStorage
+            sessionStorage.setItem('productName', productName);
+            sessionStorage.setItem('btcAmount', btcAmount);
+            sessionStorage.setItem('totalPrice', totalPrice);
+
+            // Redirect to checkout page
+            window.location.href = 'checkout.html';
+        }
+    </script>
+
+    
+</body>
+</html>
