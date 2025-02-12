@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <style>
+        body {
+            background-color: #333;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .cart-item {
+            background-color: #444;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .cart-item p {
+            margin: 5px 0;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .proceed-btn, .back-to-shop-btn {
+            padding: 12px 25px;
+            font-size: 18px;
+            background-color: #4CAF50; /* Theme color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            max-width: 250px;
+            margin: 0 auto;
+            transition: background-color 0.3s ease;
+        }
+        .proceed-btn:hover, .back-to-shop-btn:hover {
+            background-color: #45a049; /* Darker shade on hover */
+        }
+        .proceed-btn:active, .back-to-shop-btn:active {
+            background-color: #388e3c; /* Even darker on click */
+        }
+        .remove-btn {
+            padding: 8px 15px;
+            font-size: 14px;
+            background-color: #e74c3c; /* Red color for remove */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .remove-btn:hover {
+            background-color: #c0392b;
+        }
+        .remove-btn:active {
+            background-color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="heading">Your Cart</h1>
+    <div id="cart-items"></div>
+    <div class="button-container">
+        <button class="proceed-btn" id="proceed-to-checkout">Proceed to Checkout</button>
+        <button class="back-to-shop-btn" id="back-to-shop">Back to Shop</button>
+    </div>
+
+    <script>
+        // Display cart items
+        const cartItemsContainer = document.getElementById('cart-items');
+        const proceedButton = document.getElementById('proceed-to-checkout');
+        const backToShopButton = document.getElementById('back-to-shop');
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
+            proceedButton.style.display = 'none'; // Hide the proceed button if cart is empty
+        } else {
+            cart.forEach((item, index) => {
+                const cartItemDiv = document.createElement('div');
+                cartItemDiv.classList.add('cart-item');
+                cartItemDiv.innerHTML = `
+                    <div>
+                        <p><strong>Product:</strong> ${item.productName}</p>
+                        <p><strong>Amount:</strong> ${item.btcAmount} BTC</p>
+                        <p><strong>Total Price:</strong> $${item.totalPrice}</p>
+                    </div>
+                    <button class="remove-btn" data-index="${index}">Remove</button>
+                `;
+                cartItemsContainer.appendChild(cartItemDiv);
+            });
+        }
+
+        // Add event listener to each remove button
+        cartItemsContainer.addEventListener('click', function(event) {
+            if (event.target && event.target.classList.contains('remove-btn')) {
+                const index = event.target.getAttribute('data-index');
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                
+                // Remove item from cart
+                cart.splice(index, 1);
+                
+                // Save updated cart to localStorage
+                localStorage.setItem('cart', JSON.stringify(cart));
+                
+                // Refresh the page to reflect changes
+                window.location.reload();
+            }
+        });
+
+        // Proceed to checkout
+        proceedButton.addEventListener('click', function() {
+            // Redirect to checkout page
+            window.location.href = 'checkout.html';
+        });
+
+        // Back to shop
+        backToShopButton.addEventListener('click', function() {
+            // Redirect to shop page
+            window.location.href = 'shop.html';
+        });
+    </script>
+</body>
+</html>

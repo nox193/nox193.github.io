@@ -1,0 +1,100 @@
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-image: url('free-website-background-09.jpg');
+    background-size: cover;
+}
+
+head {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+
+.heading{
+    color: white;
+    text-align: center;
+}
+
+
+
+.h2btc {
+    color: #fdfffd;
+    text-align: absolute;
+
+}
+
+.pbtc {
+    color: white;
+    text-align: center;
+}
+
+
+.cBTC {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+
+.h2btc {
+    order: -1; /*this moves h2 up*/
+    text-align: center; 
+    width: 100%; 
+}
+.add-to-cart, .buy-now {
+    background-color: #ffffff;
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: 10px;
+    vertical-align: middle;
+    text-align: center;
+    padding: 10px 20px;
+    border-radius: 12.5px;
+    cursor: pointer;
+}
+
+
+.eth-buynow, .eth-add-to-cart{
+    background-color: #ffffff;
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: 10px;
+    vertical-align: middle;
+    text-align: center;
+    padding: 10px 20px;
+    border-radius: 12.5px;
+    cursor: pointer;
+
+}
+
+.eth-icon{
+    width: 25%;
+    height: 85%;
+}
+
+.eth{
+    flex-direction: none;
+    justify-content: center;
+    align-items: center;
+    height: 45%;
+    width: 65%;
+}
+
+
